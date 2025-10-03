@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PuntoAVI - Conversión analógico-digital a tu alcance!</title>
+    <title>PuntoAVI Conversión</title>
     
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -136,12 +136,6 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        
-		
-		
-		/* Transiciones para el contenido */
-		
-
 		.content.hidden {
 			opacity: 0;
 			transform: translate(-50%, -50%) scale(0.8);
@@ -174,7 +168,6 @@
 			pointer-events: none;
 			transition: all 0.6s ease-in-out;
 			overflow-y: auto;
-			/* Máscara para los bordes superior e inferior */
 			mask-image: linear-gradient(
 				to bottom,
 				transparent 0%,
@@ -183,7 +176,6 @@
 				transparent 100%
 			);
 			
-			/* Para navegadores WebKit (Chrome, Safari) */
 			-webkit-mask-image: linear-gradient(
 				to bottom,
 				transparent 0%,
@@ -243,6 +235,379 @@
 		.back-btn:hover {
 			transform: translateY(-3px);
 			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		}
+		
+		.calculate-cost-btn {
+			display: inline-block;
+			padding: 12px 35px;
+			background: linear-gradient(to right, #ff7e5f, #feb47b);
+			color: white;
+			text-decoration: none;
+			border-radius: 50px;
+			font-weight: 600;
+			font-size: 1.1rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			margin-top: 20px;
+			margin-right: 15px;
+		}
+
+		.calculate-cost-btn:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		}
+		
+		/* Estilos para la calculadora */
+		.calculator-container {
+			position: absolute;
+			z-index: 5;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			max-height: 90%;
+			max-width: 90%;
+			color: white;
+			text-align: center;
+			padding: 40px;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%) scale(0.8);
+			text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+			background-color: rgba(0, 0, 0, 0.7);
+			border-radius: 25px;
+			width: 70%;
+			height: auto;
+			min-height: 70%;
+			opacity: 0;
+			pointer-events: none;
+			transition: all 0.6s ease-in-out;
+			overflow-y: auto;
+		}
+
+		.calculator-container.active {
+			opacity: 1;
+			transform: translate(-50%, -50%) scale(1);
+			pointer-events: all;
+		}
+		
+		.calculator-container:not(.active) {
+			display: none;
+		}
+
+		.calculator-title {
+			text-align: center;
+			margin-bottom: 25px;
+			color: white;
+			font-size: 2.5rem;
+			font-family: "Jua", sans-serif;
+		}
+
+		.selection-path {
+			display: flex;
+			margin-bottom: 20px;
+			overflow-x: auto;
+			padding-bottom: 10px;
+			align-items: center;
+			flex-wrap: wrap;
+			width: 100%;
+		}
+
+		.path-step {
+			background-color: rgba(255, 255, 255, 0.2);
+			padding: 8px 15px;
+			border-radius: 20px;
+			margin-right: 5px;
+			margin-bottom: 5px;
+			font-size: 0.9rem;
+			white-space: nowrap;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			transition: all 0.3s ease;
+			position: relative;
+			cursor: default;
+		}
+
+		.path-step:not(:last-child)::after {
+			content: "→";
+			margin-left: 10px;
+			color: #4d94ff;
+			font-weight: bold;
+		}
+
+		.path-step.active {
+			background-color: #4d94ff;
+			color: white;
+		}
+
+		.options-container {
+			background-color: rgba(255, 255, 255, 0.1);
+			border-radius: 10px;
+			padding: 20px;
+			margin-bottom: 20px;
+			min-height: 150px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+			width: 100%;
+		}
+
+		.option-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 12px 0;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+			transition: all 0.3s ease;
+			cursor: pointer;
+		}
+
+		.option-row:hover {
+			background-color: rgba(255, 255, 255, 0.1);
+			padding-left: 10px;
+			padding-right: 10px;
+			margin-left: -10px;
+			margin-right: -10px;
+			border-radius: 5px;
+		}
+
+		.option-text {
+			font-size: 1.1rem;
+			color: white;
+		}
+
+		.option-arrow {
+			color: #4d94ff;
+			font-weight: bold;
+			font-size: 1.2rem;
+		}
+
+		.details-container {
+			background-color: rgba(255, 255, 255, 0.1);
+			border-radius: 10px;
+			padding: 20px;
+			margin-top: 20px;
+			display: none;
+			animation: fadeIn 0.5s ease;
+			width: 100%;
+		}
+
+		.detail-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 15px;
+		}
+
+		.detail-label {
+			font-weight: 500;
+			color: white;
+		}
+
+		.quantity-control {
+			display: flex;
+			align-items: center;
+		}
+
+		.quantity-btn {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background-color: #4d94ff;
+			color: white;
+			border: none;
+			font-size: 1.2rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		.quantity-value {
+			margin: 0 15px;
+			font-size: 1.1rem;
+			min-width: 30px;
+			text-align: center;
+			color: white;
+		}
+
+		.checkbox-container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 15px;
+		}
+
+		.checkbox-container input {
+			margin-right: 10px;
+			transform: scale(1.2);
+		}
+
+		.checkbox-container label {
+			color: white;
+		}
+
+		.delivery-options {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 20px;
+		}
+
+		.delivery-option {
+			flex: 1;
+			text-align: center;
+			padding: 10px;
+			margin: 0 5px;
+			border: 2px solid rgba(255, 255, 255, 0.3);
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			color: white;
+		}
+
+		.delivery-option.selected {
+			border-color: #4d94ff;
+			background-color: rgba(77, 148, 255, 0.2);
+		}
+
+		.calculate-btn {
+			width: 100%;
+			padding: 15px;
+			background: linear-gradient(to right, #ff7e5f, #feb47b);
+			color: white;
+			border: none;
+			border-radius: 50px;
+			font-size: 1.2rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			display: none;
+		}
+
+		.calculate-btn.calculating {
+			animation: borderPulse 0.8s infinite alternate, colorShift 4s infinite;
+		}
+
+		.result-container {
+			text-align: center;
+			margin-top: 20px;
+			display: none;
+			animation: fadeIn 0.5s ease;
+			width: 100%;
+		}
+
+		.price {
+			font-size: 2.5rem;
+			font-weight: bold;
+			color: #12b5fd;
+			margin: 20px 0;
+			text-shadow: 2px 1px 2px #00FFFF, -2px -1px 2px #FF00FF;
+		}
+
+		.request-btn {
+			width: 100%;
+			padding: 15px;
+			background: linear-gradient(to right, #25D366, #128C7E);
+			color: white;
+			border: none;
+			border-radius: 50px;
+			font-size: 1.2rem;
+			font-weight: 600;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			margin-top: 15px;
+			display: none;
+		}
+
+		.warning-message {
+			background-color: rgba(255, 243, 205, 0.2);
+			border: 1px solid rgba(255, 234, 167, 0.5);
+			border-radius: 5px;
+			padding: 10px;
+			margin-bottom: 15px;
+			display: flex;
+			align-items: center;
+		}
+
+		.warning-icon {
+			color: #f39c12;
+			margin-right: 10px;
+			font-size: 1.2rem;
+		}
+
+		.warning-message span {
+			color: white;
+		}
+
+		.back-button {
+			background-color: #6c757d;
+			color: white;
+			border: none;
+			border-radius: 5px;
+			padding: 8px 15px;
+			cursor: pointer;
+			margin-bottom: 15px;
+			transition: all 0.3s ease;
+		}
+
+		.back-button:hover {
+			background-color: #5a6268;
+		}
+
+		.calculator-back-btn {
+			display: inline-block;
+			padding: 12px 35px;
+			background: linear-gradient(to right, #6c757d, #5a6268);
+			color: white;
+			text-decoration: none;
+			border-radius: 50px;
+			font-weight: 600;
+			font-size: 1.1rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			margin-top: 20px;
+		}
+
+		.calculator-back-btn:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+		}
+
+		.thank-you-message {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-size: 3rem;
+			color: white;
+			text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+			z-index: 1000;
+			opacity: 0;
+			transition: all 1s ease;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+
+		@keyframes borderPulse {
+			0% { border-radius: 50px; }
+			100% { 
+				border-radius: 50px 0 50px 0; 
+				transform: scale(0.98);
+			}
+		}
+
+		@keyframes colorShift {
+			0% { background: linear-gradient(to right, #ff7e5f, #feb47b); }
+			25% { background: linear-gradient(to right, #feb47b, #ff7e5f); }
+			50% { background: linear-gradient(to right, #4d94ff, #1a2a6c); }
+			75% { background: linear-gradient(to right, #1a2a6c, #4d94ff); }
+			100% { background: linear-gradient(to right, #ff7e5f, #feb47b); }
+		}
+
+		@keyframes slideIn {
+			from { transform: translateX(-20px); opacity: 0; }
+			to { transform: translateX(0); opacity: 1; }
 		}
 		
 		.whatsapp-widget {
@@ -309,6 +674,20 @@
 			}
 		}
 		
+		/* CORRECCIÓN 1: Alinear a la izquierda las viñetas del resumen */
+		.selection-summary {
+			text-align: left;
+			width: 100%;
+		}
+		
+		.selection-summary ul {
+			padding-left: 20px;
+			margin: 10px 0;
+		}
+		
+		.selection-summary li {
+			text-align: left;
+		}
 		
 		@media (max-width: 768px) {
             h1 {
@@ -358,6 +737,15 @@
 				.info-list li {
 					font-size: 1rem;
 				}
+				
+				.calculator-container {
+					width: 90%;
+					padding: 25px;
+				}
+				
+				.calculator-title {
+					font-size: 2rem;
+				}
         }
 		
 		
@@ -403,16 +791,32 @@
 			.info-list li {
 				font-size: 0.9rem;
 			}
+			
+			.calculator-container {
+				width: 95%;
+				padding: 20px;
+			}
+			
+			.calculator-title {
+				font-size: 1.8rem;
+			}
+			
+			.delivery-options {
+				flex-direction: column;
+			}
+			
+			.delivery-option {
+				margin-bottom: 10px;
+			}
         }
-			
-
-			
     </style>
 	
 </head>
 <body>
     <div id="container">
         <div id="background"></div>
+        
+        <!-- Contenido Principal -->
         <div class="content">
 			<h1>.avi</h1>
             <h2>CONVERTI TUS</h2>
@@ -423,11 +827,10 @@
             <a href="#" class="btn" id="learnMoreBtn">Conocé mas...</a>
         </div>
 		
-		
 		<!-- Contenido de Información -->
 		<div class="info-content" id="infoContent">
-		<br>
-			<h3 class="info-title">Nuestros Servicios</h2>
+			<br>
+			<h3 class="info-title">Nuestros Servicios</h3>
 			
 			<p class="info-text">
 				Convertimos tus recuerdos y archivos antiguos a formatos digitales modernos. 
@@ -440,7 +843,7 @@
 				<li><strong>VHS & VHS-C:</strong> Convertimos tus videos a archivos digitales</li>
 				<li><strong>CASSETTES:</strong> Digitalizamos tu música y grabaciones de audio</li>
 				<li><strong>VINILOS:</strong> Digitalizamos el sonido único de tus discos</li>
-				<li><strong>CDs & DVDs:</strong> Recuperamos datos de discos antiguos con fotos, videos o información</li>
+				<li><strong>CDs & DVDs:</strong> Digitalizamos CDs musicales y recuperamos datos de discos antiguos con fotos, videos o información</li>
 				<li><strong>DISKETTES:</strong> Recuperamos archivos de diskettes de 3.5"</li>
 				<li><strong>DISCOS RÍGIDOS:</strong> Recuperamos datos de discos antiguos</li>
 				<li><strong>MEMORIAS SD:</strong> Recuperamos fotos y videos de tarjetas de memoria</li>
@@ -454,21 +857,93 @@
 				<strong>No lo dudes, escribinos!</strong>
 			</p>
 			
+			<a href="#" class="calculate-cost-btn" id="calculateCostBtn">Calcular costo</a>
 			<a href="#" class="back-btn" id="backBtn">Volver al Inicio</a>
 			<br><br>
 		</div>
 		
-		
-        <!-- Widget de WhatsApp -->
-			<div class="whatsapp-widget">
-				<div class="whatsapp-tooltip">¿Necesitas ayuda?</div>
-				<a href="https://wa.me/5491153374470?text=Hola,%20me%20interesa%20convertir%20mis%20archivos" 
-				   class="whatsapp-button" 
-				   target="_blank">
-					<img src="https://i0.wp.com/scouts.org.ar/wp-content/uploads/2021/09/white-whatsapp-logo-png-11576005920ihsdw57nbe.png"
-						 alt="WhatsApp">
-				</a>
+		<!-- Calculadora de Costos -->
+		<div class="calculator-container" id="calculatorContainer">
+			<h2 class="calculator-title">Calculadora de Costos</h2>
+			
+			<button class="back-button" id="globalBackBtn" style="display: none;">← Volver atrás</button>
+			
+			<div class="selection-path" id="selectionPath">
+				<!-- Los pasos de selección se agregarán aquí dinámicamente -->
 			</div>
+			
+			<div class="options-container" id="optionsContainer">
+				<!-- Las opciones se mostrarán aquí -->
+			</div>
+			
+			<div class="details-container" id="detailsContainer">
+				<div class="selection-summary" id="selectionSummary"></div>
+				
+				<!-- Mensajes de advertencia -->
+				<div class="warning-message" id="videoWarning" style="display: none;">
+					<span class="warning-icon">⚠</span>
+					<span>El valor es por hora de video</span>
+				</div>
+				
+				<div class="warning-message" id="informationWarning" style="display: none;">
+					<span class="warning-icon">⚠</span>
+					<span>El precio es por Gigabyte</span>
+				</div>
+				
+				<div class="detail-row">
+					<span class="detail-label">Cantidad:</span>
+					<div class="quantity-control">
+						<button class="quantity-btn" id="decreaseQuantity">-</button>
+						<span class="quantity-value" id="quantityValue">1</span>
+						<button class="quantity-btn" id="increaseQuantity">+</button>
+					</div>
+				</div>
+				
+				<div class="checkbox-container" id="audioRestorationContainer">
+					<input type="checkbox" id="audioRestoration">
+					<label for="audioRestoration">Restaurar Sonido</label>
+				</div>
+				
+				<div class="checkbox-container" id="videoEnhancementContainer">
+					<input type="checkbox" id="videoEnhancement">
+					<label for="videoEnhancement">Mejorar Imagen de Video</label>
+				</div>
+				
+				<div class="checkbox-container" id="separateTracksContainer">
+					<input type="checkbox" id="separateTracks">
+					<label for="separateTracks">Separar pistas</label>
+				</div>
+				
+				<div class="delivery-options">
+					<div class="delivery-option" data-value="pendrive">Pen Drive</div>
+					<div class="delivery-option" data-value="cloud">Link en la Nube</div>
+					<div class="delivery-option" data-value="both">Ambas</div>
+				</div>
+				
+				<button class="calculate-btn" id="calculateBtn">Calcular...</button>
+			</div>
+			
+			<div class="result-container" id="resultContainer">
+				<div class="price" id="priceResult">$0</div>
+				<button class="request-btn" id="requestBtn">Pedir el servicio...</button>
+			</div>
+			
+			<a href="#" class="calculator-back-btn" id="calculatorBackBtn">Volver a Servicios</a>
+		</div>
+		
+		<!-- Widget de WhatsApp -->
+		<div class="whatsapp-widget">
+			<div class="whatsapp-tooltip">¿Necesitas ayuda?</div>
+			<a href="https://wa.me/5491153374470?text=Hola,%20me%20interesa%20convertir%20mis%20archivos" 
+			   class="whatsapp-button" 
+			   target="_blank">
+				<img src="https://i0.wp.com/scouts.org.ar/wp-content/uploads/2021/09/white-whatsapp-logo-png-11576005920ihsdw57nbe.png"
+					 alt="WhatsApp">
+			</a>
+		</div>
+		
+		<!-- Mensaje de agradecimiento -->
+		<div class="thank-you-message" id="thankYouMessage">¡Gracias por contactarse!</div>
     </div>
 
     <script>
@@ -492,7 +967,7 @@
                 'imgs/13.png'
             ];
             
-            // Variables de control
+            // Variables de control para elementos flotantes
             let creationInterval;
             let isTabActive = true;
             let activeElements = 0;
@@ -643,12 +1118,545 @@
                 }
             });
 			
-			// Manejo de transición entre pantallas
+			// ============================================
+			// CÓDIGO PARA LA CALCULADORA DE COSTOS
+			// ============================================
+			
+			// VARIABLES CONFIGURABLES - FÁCIL DE MODIFICAR
+			const PRECIOS = {
+				// Audio
+				'casete-60min': 1500,
+				'casete-90min': 1800,
+				'vinilo-single': 2000,
+				'vinilo-ep': 2500,
+				'vinilo-lp': 3000,
+				'cd-audio': 1000,
+				
+				// Video
+				'vhs': 2500,
+				'vhs-c': 2800,
+				'dvd': 1500,
+				
+				// Información
+				'diskette': 800,
+				'disco-rigido': 3000,
+				'memoria-sd': 1000,
+				'cd-dvd': 1200,
+				
+				// Servicios adicionales
+				'restauracion-audio': 500,
+				'mejora-video': 800,
+				'separar-pistas': 700,
+				'entrega-ambas': 500
+			};
+			
+			// Estructura de opciones - CORREGIDA
+			const optionsTree = {
+				"root": [
+					{ id: "audio", text: "Audio", next: "audio-type" },
+					{ id: "video", text: "Video", next: "video-type" },
+					{ id: "information", text: "Información", next: "information-type" }
+				],
+				"audio-type": [
+					{ id: "casete", text: "Casete", next: "casete-length" },
+					{ id: "vinilo", text: "Vinilo", next: "vinilo-type" },
+					{ id: "cd", text: "CD", final: true }
+				],
+				"video-type": [
+					{ id: "vhs", text: "VHS", final: true },
+					{ id: "vhs-c", text: "VHS-C (Videocam)", final: true },
+					{ id: "dvd", text: "DVD", final: true }
+				],
+				"information-type": [
+					{ id: "diskette", text: "Diskette", final: true },
+					{ id: "disco-rigido", text: "Disco Rígido", final: true },
+					{ id: "memoria-sd", text: "Memoria SD", final: true },
+					{ id: "cd-dvd", text: "CD / DVD", final: true }
+				],
+				"casete-length": [
+					{ id: "60min", text: "60 min.", final: true },
+					{ id: "90min", text: "90 min.", final: true }
+				],
+				"vinilo-type": [
+					{ id: "single", text: "Single", final: true },
+					{ id: "ep", text: "EP", final: true },
+					{ id: "lp", text: "LP", final: true }
+				]
+			};
+
+			// Variables de estado para la calculadora
+			let currentStep = "root";
+			let selectedOptions = {};
+			let selectionHistory = [];
+			let quantity = 1;
+			let deliveryOption = "pendrive";
+			let audioRestoration = false;
+			let videoEnhancement = false;
+			let separateTracks = false;
+			let isFinalSelection = false;
+
+			// Elementos DOM de la calculadora
+			const calcSelectionPath = document.getElementById('selectionPath');
+			const calcOptionsContainer = document.getElementById('optionsContainer');
+			const calcDetailsContainer = document.getElementById('detailsContainer');
+			const calcSelectionSummary = document.getElementById('selectionSummary');
+			const calcQuantityValue = document.getElementById('quantityValue');
+			const calcDecreaseQuantity = document.getElementById('decreaseQuantity');
+			const calcIncreaseQuantity = document.getElementById('increaseQuantity');
+			const calcAudioRestorationCheckbox = document.getElementById('audioRestoration');
+			const calcVideoEnhancementCheckbox = document.getElementById('videoEnhancement');
+			const calcSeparateTracksCheckbox = document.getElementById('separateTracks');
+			const calcCalculateBtn = document.getElementById('calculateBtn');
+			const calcResultContainer = document.getElementById('resultContainer');
+			const calcPriceResult = document.getElementById('priceResult');
+			const calcRequestBtn = document.getElementById('requestBtn');
+			const calcThankYouMessage = document.getElementById('thankYouMessage');
+			const calcDeliveryOptions = document.querySelectorAll('.delivery-option');
+			const calcGlobalBackBtn = document.getElementById('globalBackBtn');
+			const calcVideoWarning = document.getElementById('videoWarning');
+			const calcInformationWarning = document.getElementById('informationWarning');
+
+			// Inicializar calculadora
+			function initCalculator() {
+				showCalculatorOptions(currentStep);
+				setupCalculatorEventListeners();
+				updateCalculatorBackButton();
+			}
+
+			// Mostrar opciones según el paso actual
+			function showCalculatorOptions(step) {
+				calcOptionsContainer.innerHTML = '';
+				const options = optionsTree[step];
+				
+				if (!options || isFinalSelection) {
+					return;
+				}
+				
+				options.forEach(option => {
+					const optionRow = document.createElement('div');
+					optionRow.className = 'option-row';
+					optionRow.innerHTML = `
+						<span class="option-text">${option.text}</span>
+						<span class="option-arrow">→</span>
+					`;
+					
+					optionRow.addEventListener('click', () => {
+						selectCalculatorOption(option);
+					});
+					
+					calcOptionsContainer.appendChild(optionRow);
+				});
+			}
+
+			// Seleccionar una opción
+			function selectCalculatorOption(option) {
+				// Ocultar resultados de cálculo si estaban visibles
+				resetCalculatorCalculationState();
+				
+				// Agregar al camino de selección
+				const pathStep = document.createElement('div');
+				pathStep.className = 'path-step';
+				pathStep.textContent = option.text;
+				pathStep.style.animation = 'slideIn 0.5s ease forwards';
+				calcSelectionPath.appendChild(pathStep);
+				
+				// Guardar en el historial
+				selectionHistory.push({
+					step: currentStep,
+					option: option
+				});
+				
+				// Actualizar selecciones
+				selectedOptions[currentStep] = {
+					text: option.text,
+					id: option.id
+				};
+				
+				// Verificar si es una selección final
+				if (option.final) {
+					isFinalSelection = true;
+					calcOptionsContainer.style.display = 'none';
+					showCalculatorDetails();
+					// Mostrar botón calcular solo al final
+					calcCalculateBtn.style.display = 'block';
+				} else if (option.next) {
+					// Si hay siguiente paso, mostrarlo
+					currentStep = option.next;
+					showCalculatorOptions(currentStep);
+					// Ocultar botón calcular si no es final
+					calcCalculateBtn.style.display = 'none';
+				}
+				
+				updateCalculatorBackButton();
+			}
+
+			// Mostrar detalles y opciones adicionales
+			function showCalculatorDetails() {
+				// Construir resumen de selección
+				let summaryHTML = `<h3>Resumen de selección:</h3><ul>`;
+				for (const step in selectedOptions) {
+					summaryHTML += `<li>${selectedOptions[step].text}</li>`;
+				}
+				summaryHTML += '</ul>';
+				calcSelectionSummary.innerHTML = summaryHTML;
+				
+				// Mostrar/ocultar opciones según el tipo de medio
+				const audioRestorationContainer = document.getElementById('audioRestorationContainer');
+				const videoEnhancementContainer = document.getElementById('videoEnhancementContainer');
+				const separateTracksContainer = document.getElementById('separateTracksContainer');
+				
+				if (selectedOptions['root'].text === 'Audio') {
+					audioRestorationContainer.style.display = 'flex';
+					videoEnhancementContainer.style.display = 'none';
+					
+					// Mostrar opción de separar pistas solo para casete y vinilo
+					if (selectedOptions['audio-type'] && 
+						(selectedOptions['audio-type'].id === 'casete' || selectedOptions['audio-type'].id === 'vinilo')) {
+						separateTracksContainer.style.display = 'flex';
+					} else {
+						separateTracksContainer.style.display = 'none';
+					}
+				} else if (selectedOptions['root'].text === 'Video') {
+					audioRestorationContainer.style.display = 'none';
+					videoEnhancementContainer.style.display = 'flex';
+					separateTracksContainer.style.display = 'none';
+					
+					// Mostrar advertencia para video
+					calcVideoWarning.style.display = 'flex';
+					calcInformationWarning.style.display = 'none';
+				} else {
+					audioRestorationContainer.style.display = 'none';
+					videoEnhancementContainer.style.display = 'none';
+					separateTracksContainer.style.display = 'none';
+					
+					// Mostrar advertencia para información
+					calcVideoWarning.style.display = 'none';
+					calcInformationWarning.style.display = 'flex';
+				}
+				
+				// Mostrar contenedor de detalles
+				calcDetailsContainer.style.display = 'block';
+			}
+
+			// Función para volver atrás - COMPLETAMENTE REESCRITA
+			function goCalculatorBack() {
+				if (selectionHistory.length === 0) return;
+				
+				// Ocultar resultados de cálculo
+				resetCalculatorCalculationState();
+				
+				// Obtener la última selección del historial
+				const lastSelection = selectionHistory.pop();
+				
+				// Remover el último paso del camino de selección
+				const pathSteps = calcSelectionPath.querySelectorAll('.path-step');
+				if (pathSteps.length > 0) {
+					pathSteps[pathSteps.length - 1].remove();
+				}
+				
+				// Eliminar la selección del objeto selectedOptions
+				delete selectedOptions[lastSelection.step];
+				
+				// Determinar el paso actual basado en el historial restante
+				if (selectionHistory.length === 0) {
+					// Si no hay más selecciones, volver al inicio
+					currentStep = "root";
+					isFinalSelection = false;
+					calcOptionsContainer.style.display = 'block';
+					showCalculatorOptions(currentStep);
+				} else {
+					// Si hay selecciones previas, volver al paso anterior
+					const previousSelection = selectionHistory[selectionHistory.length - 1];
+					
+					// Si la selección anterior es final, estamos en un estado final
+					if (previousSelection.option.final) {
+						isFinalSelection = true;
+						calcOptionsContainer.style.display = 'none';
+						showCalculatorDetails();
+						calcCalculateBtn.style.display = 'block';
+						currentStep = previousSelection.step;
+					} else {
+						// Si no es final, volver al paso correspondiente
+						isFinalSelection = false;
+						currentStep = previousSelection.option.next;
+						calcOptionsContainer.style.display = 'block';
+						showCalculatorOptions(currentStep);
+						calcCalculateBtn.style.display = 'none';
+					}
+				}
+				
+				// Ocultar detalles si no estamos en un estado final
+				if (!isFinalSelection) {
+					calcDetailsContainer.style.display = 'none';
+				}
+				
+				updateCalculatorBackButton();
+			}
+
+			// Reiniciar estado de cálculo
+			function resetCalculatorCalculationState() {
+				calcResultContainer.style.display = 'none';
+				calcCalculateBtn.classList.remove('calculating');
+				calcCalculateBtn.textContent = 'Calcular...';
+				calcRequestBtn.style.display = 'none';
+			}
+
+			// Actualizar visibilidad del botón de volver
+			function updateCalculatorBackButton() {
+				if (selectionHistory.length > 0) {
+					calcGlobalBackBtn.style.display = 'block';
+				} else {
+					calcGlobalBackBtn.style.display = 'none';
+				}
+			}
+
+			// Configurar event listeners de la calculadora
+			function setupCalculatorEventListeners() {
+				// Control de cantidad
+				calcDecreaseQuantity.addEventListener('click', () => {
+					if (quantity > 1) {
+						quantity--;
+						calcQuantityValue.textContent = quantity;
+					}
+				});
+				
+				calcIncreaseQuantity.addEventListener('click', () => {
+					quantity++;
+					calcQuantityValue.textContent = quantity;
+				});
+				
+				// Opciones de entrega
+				calcDeliveryOptions.forEach(option => {
+					option.addEventListener('click', () => {
+						calcDeliveryOptions.forEach(opt => opt.classList.remove('selected'));
+						option.classList.add('selected');
+						deliveryOption = option.getAttribute('data-value');
+					});
+				});
+				
+				// Casillas de verificación
+				calcAudioRestorationCheckbox.addEventListener('change', (e) => {
+					audioRestoration = e.target.checked;
+				});
+				
+				calcVideoEnhancementCheckbox.addEventListener('change', (e) => {
+					videoEnhancement = e.target.checked;
+				});
+				
+				calcSeparateTracksCheckbox.addEventListener('change', (e) => {
+					separateTracks = e.target.checked;
+				});
+				
+				// Botón calcular
+				calcCalculateBtn.addEventListener('click', calculateCalculatorPrice);
+				
+				// Botón solicitar servicio
+				calcRequestBtn.addEventListener('click', requestCalculatorService);
+				
+				// Botón volver atrás
+				calcGlobalBackBtn.addEventListener('click', goCalculatorBack);
+				
+				// Seleccionar primera opción de entrega por defecto
+				calcDeliveryOptions[0].classList.add('selected');
+			}
+
+			// Calcular precio
+			function calculateCalculatorPrice() {
+				// Animación del botón
+				calcCalculateBtn.classList.add('calculating');
+				calcCalculateBtn.textContent = 'Calculando...';
+				
+				// Simular cálculo
+				setTimeout(() => {
+					// Calcular precio base según selecciones
+					let basePrice = 0;
+					
+					// Determinar el precio según la selección final
+					let finalSelectionId = '';
+					
+					// Buscar la selección final en el árbol
+					for (const step in selectedOptions) {
+						const option = selectedOptions[step];
+						
+						// Para audio
+						if (option.id === 'cd') {
+							finalSelectionId = 'cd-audio';
+						} else if (option.id === '60min') {
+							finalSelectionId = 'casete-60min';
+						} else if (option.id === '90min') {
+							finalSelectionId = 'casete-90min';
+						} else if (option.id === 'single') {
+							finalSelectionId = 'vinilo-single';
+						} else if (option.id === 'ep') {
+							finalSelectionId = 'vinilo-ep';
+						} else if (option.id === 'lp') {
+							finalSelectionId = 'vinilo-lp';
+						}
+						// Para video
+						else if (option.id === 'vhs') {
+							finalSelectionId = 'vhs';
+						} else if (option.id === 'vhs-c') {
+							finalSelectionId = 'vhs-c';
+						} else if (option.id === 'dvd') {
+							finalSelectionId = 'dvd';
+						}
+						// Para información
+						else if (option.id === 'diskette') {
+							finalSelectionId = 'diskette';
+						} else if (option.id === 'disco-rigido') {
+							finalSelectionId = 'disco-rigido';
+						} else if (option.id === 'memoria-sd') {
+							finalSelectionId = 'memoria-sd';
+						} else if (option.id === 'cd-dvd') {
+							finalSelectionId = 'cd-dvd';
+						}
+					}
+					
+					// Obtener precio base
+					basePrice = PRECIOS[finalSelectionId] || 1500;
+					
+					// Aplicar modificadores
+					if (audioRestoration) basePrice += PRECIOS['restauracion-audio'];
+					if (videoEnhancement) basePrice += PRECIOS['mejora-video'];
+					if (separateTracks) basePrice += PRECIOS['separar-pistas'];
+					
+					// Aplicar cantidad
+					let totalPrice = basePrice * quantity;
+					
+					// Aplicar modificador de entrega
+					if (deliveryOption === 'both') totalPrice += PRECIOS['entrega-ambas'];
+					
+					// Mostrar resultado
+					calcPriceResult.textContent = `$${totalPrice}`;
+					calcResultContainer.style.display = 'block';
+					calcCalculateBtn.style.display = 'none';
+					
+					// Mostrar botón de solicitud después de un segundo
+					setTimeout(() => {
+						calcRequestBtn.style.display = 'block';
+					}, 1000);
+				}, 4000);
+			}
+
+			// Solicitar servicio
+			function requestCalculatorService() {
+				// Ocultar contenedor de información con fade
+				document.querySelector('.calculator-container').style.opacity = '0';
+				document.querySelector('.calculator-container').style.transition = 'opacity 0.5s ease';
+				
+				// Mostrar mensaje de agradecimiento
+				setTimeout(() => {
+					calcThankYouMessage.style.opacity = '1';
+					
+					// Hacer que el mensaje se haga más pequeño y desaparezca
+					setTimeout(() => {
+						calcThankYouMessage.style.transform = 'translate(-50%, -50%) scale(0.5)';
+						calcThankYouMessage.style.opacity = '0';
+						
+						// Enviar mensaje de WhatsApp después de la animación
+						setTimeout(() => {
+							sendCalculatorWhatsAppMessage();
+						}, 1000);
+					}, 1000);
+				}, 500);
+			}
+
+			// Enviar mensaje de WhatsApp
+			function sendCalculatorWhatsAppMessage() {
+				// Construir mensaje con la información recopilada
+				let message = "Hola, me interesa solicitar el servicio de conversión con los siguientes detalles:%0A";
+				
+				// Agregar selecciones
+				for (const step in selectedOptions) {
+					message += `${step}: ${selectedOptions[step].text}%0A`;
+				}
+				
+				message += `%0ACantidad: ${quantity}%0A`;
+				message += `Entrega: ${deliveryOption === 'pendrive' ? 'Pen Drive' : 
+							 deliveryOption === 'cloud' ? 'Link en la Nube' : 'Ambas'}%0A`;
+				
+				if (audioRestoration) message += "Restaurar Sonido: Sí%0A";
+				if (videoEnhancement) message += "Mejorar Imagen de Video: Sí%0A";
+				if (separateTracks) message += "Separar pistas: Sí%0A";
+				
+				message += `Precio calculado: ${calcPriceResult.textContent}%0A%0A`;
+				message += "Por favor, contactarme para coordinar el servicio.";
+				
+				// Abrir WhatsApp
+				window.open(`https://wa.me/5491153374470?text=${message}`, '_blank');
+				
+				// CORRECCIÓN 2: Volver al contenedor principal después de enviar el mensaje
+				setTimeout(() => {
+					resetCalculator();
+					// Ocultar completamente la calculadora
+					calculatorContainer.classList.remove('active');
+					// Ocultar también la información por si acaso
+					infoContent.classList.remove('active');
+					// Mostrar el contenido principal
+					mainContent.classList.remove('hidden');
+					// Resetear completamente la calculadora
+					resetCalculator();
+				}, 2000);
+			}
+
+			// Restablecer calculadora
+			function resetCalculator() {
+				// Restablecer variables
+				currentStep = "root";
+				selectedOptions = {};
+				selectionHistory = [];
+				quantity = 1;
+				deliveryOption = "pendrive";
+				audioRestoration = false;
+				videoEnhancement = false;
+				separateTracks = false;
+				isFinalSelection = false;
+				
+				// Restablecer UI
+				calcSelectionPath.innerHTML = '';
+				calcOptionsContainer.innerHTML = '';
+				calcOptionsContainer.style.display = 'block';
+				calcDetailsContainer.style.display = 'none';
+				calcResultContainer.style.display = 'none';
+				calcCalculateBtn.style.display = 'none';
+				calcCalculateBtn.classList.remove('calculating');
+				calcCalculateBtn.textContent = 'Calcular...';
+				calcRequestBtn.style.display = 'none';
+				calcQuantityValue.textContent = '1';
+				calcAudioRestorationCheckbox.checked = false;
+				calcVideoEnhancementCheckbox.checked = false;
+				calcSeparateTracksCheckbox.checked = false;
+				calcVideoWarning.style.display = 'none';
+				calcInformationWarning.style.display = 'none';
+				document.querySelector('.calculator-container').style.opacity = '1';
+				
+				// Volver a mostrar opciones iniciales
+				showCalculatorOptions(currentStep);
+				
+				// Restablecer selección de entrega
+				calcDeliveryOptions.forEach(opt => opt.classList.remove('selected'));
+				calcDeliveryOptions[0].classList.add('selected');
+				
+				// Actualizar botón de volver
+				updateCalculatorBackButton();
+			}
+
+			// Inicializar calculadora cuando se cargue la página
+			initCalculator();
+			
+			// ============================================
+			// MANEJO DE TRANSICIONES ENTRE PANTALLAS
+			// ============================================
+			
 			const learnMoreBtn = document.querySelector('.btn');
 			const backBtn = document.getElementById('backBtn');
+			const calculateCostBtn = document.getElementById('calculateCostBtn');
+			const calculatorBackBtn = document.getElementById('calculatorBackBtn');
 			const mainContent = document.querySelector('.content');
 			const infoContent = document.getElementById('infoContent');
+			const calculatorContainer = document.getElementById('calculatorContainer');
 
+			// Botón "Conocé mas..." - va a información
 			learnMoreBtn.addEventListener('click', function(e) {
 				e.preventDefault();
 				
@@ -661,6 +1669,7 @@
 				}, 300);
 			});
 
+			// Botón "Volver al Inicio" - desde información a principal
 			backBtn.addEventListener('click', function(e) {
 				e.preventDefault();
 				
@@ -672,13 +1681,33 @@
 					mainContent.classList.remove('hidden');
 				}, 300);
 			});
-			
-			
-			
-			
+
+			// Botón "Calcular costo" - desde información a calculadora
+			calculateCostBtn.addEventListener('click', function(e) {
+				e.preventDefault();
+				
+				// Ocultar contenido de información
+				infoContent.classList.remove('active');
+				
+				// Mostrar calculadora después de un delay
+				setTimeout(() => {
+					calculatorContainer.classList.add('active');
+				}, 300);
+			});
+
+			// Botón "Volver a Servicios" - desde calculadora a información
+			calculatorBackBtn.addEventListener('click', function(e) {
+				e.preventDefault();
+				
+				// Ocultar calculadora
+				calculatorContainer.classList.remove('active');
+				
+				// Mostrar contenido de información después de un delay
+				setTimeout(() => {
+					infoContent.classList.add('active');
+				}, 300);
+			});
         });
     </script>
 </body>
-
 </html>
-
