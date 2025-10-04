@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elementos Flotantes PNG</title>
+    <title>Punto AVI Conversión...</title>
     
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,7 @@
 
         .content {
             position: absolute;
-            z-index: 3;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -140,12 +140,13 @@
 			opacity: 0;
 			transform: translate(-50%, -50%) scale(0.8);
 			pointer-events: none;
+			display: none !important;
 		}
 
 		/* Contenido de información */
 		.info-content {
 			position: absolute;
-			z-index: 4;
+			z-index: 20;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
@@ -189,6 +190,10 @@
 			opacity: 1;
 			transform: translate(-50%, -50%) scale(1);
 			pointer-events: all;
+		}
+
+		.info-content:not(.active) {
+			display: none !important;
 		}
 
 		.info-title {
@@ -260,7 +265,7 @@
 		/* Estilos para la calculadora */
 		.calculator-container {
 			position: absolute;
-			z-index: 5;
+			z-index: 30;
 			display: flex;
 			flex-direction: column;
 			justify-content: flex-start;
@@ -292,7 +297,7 @@
 		}
 		
 		.calculator-container:not(.active) {
-			display: none;
+			display: none !important;
 		}
 
 		.calculator-title {
@@ -360,7 +365,9 @@
             transition: all 0.3s ease;
             cursor: pointer;
             width: 100%;
-            user-select: none; /* Evitar selección de texto */
+            user-select: none;
+			position: relative;
+			z-index: 1;
         }
 
 		.option-row:hover {
@@ -583,6 +590,8 @@
 			z-index: 1000;
 			opacity: 0;
 			transition: all 1s ease;
+			user-select: none;
+			pointer-events: none;
 		}
 
 		@keyframes fadeIn {
@@ -661,43 +670,15 @@
 			opacity: 1;
 			transform: translateY(0);
 		}
-		.content.hidden {
-			display: none !important;
-		}
 
-		.info-content:not(.active) {
-			display: none !important;
-		}
-
-		.calculator-container:not(.active) {
-			display: none !important;
-		}
-
-		/* Asegurar que los contenedores activos tengan un z-index adecuado */
-		.content {
-			z-index: 10;
-		}
-
-		.info-content.active {
-			z-index: 20;
-		}
-
-		.calculator-container.active {
-			z-index: 30;
-		}
-
-		.thank-you-message {
-			z-index: 40;
-			user-select: none;
-		}
 		.floating-element {
             z-index: 5;
         }
 
 		/* Mejorar el tamaño de los botones en móviles */
 		.option-row {
-			padding: 15px 20px; /* Aumentar el padding para hacerlos más grandes en móviles */
-			min-height: 50px; /* Establecer una altura mínima */
+			padding: 15px 20px;
+			min-height: 50px;
 		}
 
 		/* Asegurar que el contenedor de opciones ocupe todo el ancho */
@@ -1639,17 +1620,10 @@
 				// CORRECCIÓN 2: Volver al contenedor principal después de enviar el mensaje
 				setTimeout(() => {
 					resetCalculator();
-					// CORRECCIÓN: Ocultar completamente todos los contenedores excepto el principal
+					// Ocultar completamente todos los contenedores excepto el principal
 					calculatorContainer.classList.remove('active');
 					infoContent.classList.remove('active');
 					mainContent.classList.remove('hidden');
-					
-					// CORRECCIÓN ADICIONAL: Forzar el redibujado para evitar problemas de renderizado
-					setTimeout(() => {
-						document.body.style.display = 'none';
-						document.body.offsetHeight; // Forzar reflow
-						document.body.style.display = 'block';
-					}, 50);
 				}, 2000);
 			}
 
