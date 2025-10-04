@@ -312,6 +312,7 @@
 			display: flex;
 			margin-bottom: 20px;
 			overflow-x: auto;
+			overflow-y: auto;
 			padding-bottom: 10px;
 			align-items: center;
 			flex-wrap: wrap;
@@ -330,6 +331,7 @@
 			transition: all 0.3s ease;
 			position: relative;
 			cursor: default;
+			width: auto;
 		}
 
 		.path-step:not(:last-child)::after {
@@ -778,6 +780,19 @@
             .option-text {
                 font-size: 1.2rem;
             }
+			.path-step {
+				font-size: 0.7rem;
+				}
+			.selection-path {
+				display: flex;
+				margin-bottom: 1px;
+				overflow-x: hidden;
+				overflow-y: hidden;
+				padding-bottom: 25px;
+				align-items: center;
+				flex-wrap: wrap;
+				width: auto;
+			
         }
 		
 		
@@ -1561,6 +1576,12 @@
 					// Mostrar resultado
 					calcPriceResult.textContent = `$${totalPrice}`;
 					calcResultContainer.style.display = 'block';
+					setTimeout(() => {
+					calcResultContainer.scrollIntoView({ 
+						behavior: 'smooth', 
+						block: 'center'
+						});
+					}, 100);
 					calcCalculateBtn.style.display = 'none';
 					
 					// Mostrar botón de solicitud después de un segundo
