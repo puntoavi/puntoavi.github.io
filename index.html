@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Punto AVI Conversión...</title>
+    <title>Elementos Flotantes PNG</title>
     
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -350,23 +350,23 @@
 		}
 
 		.option-row {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			padding: 12px 20px; /* Aumentamos el padding horizontal */
-			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-			transition: all 0.3s ease;
-			cursor: pointer;
-			width: 100%; /* Ocupa todo el ancho disponible */
-		}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            user-select: none; /* Evitar selección de texto */
+        }
 
 		.option-row:hover {
 			background-color: rgba(255, 255, 255, 0.1);
-			padding-left: 10px;
-			padding-right: 10px;
-			margin-left: -10px;
-			margin-right: -10px;
-			border-radius: 5px;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 		}
 
 		.option-text {
@@ -661,33 +661,48 @@
 			opacity: 1;
 			transform: translateY(0);
 		}
-		/* Asegurar que los contenedores inactivos no intercepten eventos */
-		.content.hidden,
-		.info-content:not(.active),
-		.calculator-container:not(.active) {
-			pointer-events: none;
+		.content.hidden {
+			display: none !important;
 		}
 
-		/* Ocultar completamente la calculadora cuando no está activa */
-		.calculator-container:not(.active) {
-			display: none;
+		.info-content:not(.active) {
+			display: none !important;
 		}
 
-		/* Ajustar z-index para evitar superposición de elementos */
+		.calculator-container:not(.active) {
+			display: none !important;
+		}
+
+		/* Asegurar que los contenedores activos tengan un z-index adecuado */
 		.content {
 			z-index: 10;
 		}
 
-		.info-content {
+		.info-content.active {
 			z-index: 20;
 		}
 
-		.calculator-container {
+		.calculator-container.active {
 			z-index: 30;
 		}
 
 		.thank-you-message {
 			z-index: 40;
+			user-select: none;
+		}
+		.floating-element {
+            z-index: 5;
+        }
+
+		/* Mejorar el tamaño de los botones en móviles */
+		.option-row {
+			padding: 15px 20px; /* Aumentar el padding para hacerlos más grandes en móviles */
+			min-height: 50px; /* Establecer una altura mínima */
+		}
+
+		/* Asegurar que el contenedor de opciones ocupe todo el ancho */
+		.options-container {
+			width: 100%;
 		}
 
 		@keyframes pulse {
@@ -740,40 +755,48 @@
 					right: 20px;
 				}
 				
-				.whatsapp-button {
-					width: 55px;
-					height: 55px;
-				}
-				
-				.whatsapp-button img {
-					width: 30px;
-					height: 30px;
-				}
-				.info-content {
-					width: 85%;
-					padding: 25px;
-				}
-				
-				.info-title {
-					font-size: 2.5rem;
-				}
-				
-				.info-text {
-					font-size: 1.1rem;
-				}
-				
-				.info-list li {
-					font-size: 1rem;
-				}
-				
-				.calculator-container {
-					width: 90%;
-					padding: 25px;
-				}
-				
-				.calculator-title {
-					font-size: 2rem;
-				}
+			.whatsapp-button {
+				width: 55px;
+				height: 55px;
+			}
+			
+			.whatsapp-button img {
+				width: 30px;
+				height: 30px;
+			}
+			.info-content {
+				width: 85%;
+				padding: 25px;
+			}
+			
+			.info-title {
+				font-size: 2.5rem;
+			}
+			
+			.info-text {
+				font-size: 1.1rem;
+			}
+			
+			.info-list li {
+				font-size: 1rem;
+			}
+			
+			.calculator-container {
+				width: 90%;
+				padding: 25px;
+			}
+			
+			.calculator-title {
+				font-size: 2rem;
+			}
+			.option-row {
+                padding: 18px 20px;
+                min-height: 60px;
+            }
+            
+            .option-text {
+                font-size: 1.2rem;
+            }
         }
 		
 		
@@ -1616,14 +1639,17 @@
 				// CORRECCIÓN 2: Volver al contenedor principal después de enviar el mensaje
 				setTimeout(() => {
 					resetCalculator();
-					// Ocultar completamente la calculadora
+					// CORRECCIÓN: Ocultar completamente todos los contenedores excepto el principal
 					calculatorContainer.classList.remove('active');
-					// Ocultar también la información por si acaso
 					infoContent.classList.remove('active');
-					// Mostrar el contenido principal
 					mainContent.classList.remove('hidden');
-					// Resetear completamente la calculadora
-					resetCalculator();
+					
+					// CORRECCIÓN ADICIONAL: Forzar el redibujado para evitar problemas de renderizado
+					setTimeout(() => {
+						document.body.style.display = 'none';
+						document.body.offsetHeight; // Forzar reflow
+						document.body.style.display = 'block';
+					}, 50);
 				}, 2000);
 			}
 
@@ -1739,4 +1765,3 @@
     </script>
 </body>
 </html>
-
