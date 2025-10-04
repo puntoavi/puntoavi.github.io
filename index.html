@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PuntoAVI Conversión</title>
+    <title>Elementos Flotantes PNG</title>
     
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -353,10 +353,11 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			padding: 12px 0;
+			padding: 12px 20px; /* Aumentamos el padding horizontal */
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 			transition: all 0.3s ease;
 			cursor: pointer;
+			width: 100%; /* Ocupa todo el ancho disponible */
 		}
 
 		.option-row:hover {
@@ -660,7 +661,34 @@
 			opacity: 1;
 			transform: translateY(0);
 		}
+		/* Asegurar que los contenedores inactivos no intercepten eventos */
+		.content.hidden,
+		.info-content:not(.active),
+		.calculator-container:not(.active) {
+			pointer-events: none;
+		}
 
+		/* Ocultar completamente la calculadora cuando no está activa */
+		.calculator-container:not(.active) {
+			display: none;
+		}
+
+		/* Ajustar z-index para evitar superposición de elementos */
+		.content {
+			z-index: 10;
+		}
+
+		.info-content {
+			z-index: 20;
+		}
+
+		.calculator-container {
+			z-index: 30;
+		}
+
+		.thank-you-message {
+			z-index: 40;
+		}
 
 		@keyframes pulse {
 			0% {
@@ -960,11 +988,7 @@
                 'imgs/6.png',
                 'imgs/7.png',
                 'imgs/8.png',
-				'imgs/9.png',
-				'imgs/10.png',
-				'imgs/11.png',
-				'imgs/12.png',
-                'imgs/13.png'
+                'imgs/9.png'
             ];
             
             // Variables de control para elementos flotantes
