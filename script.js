@@ -247,9 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (this.state.selectedOptions['video-type'] &&
                     (this.state.selectedOptions['video-type'].id === 'dvd')){
+                        this.refs.videoWarning.style.display = 'none';
                         videoEnhancementContainer.style.display = 'none';
                 }
-                this.refs.videoWarning.style.display = 'flex';
+                
                 this.refs.informationWarning.style.display = 'none';
 
 
@@ -483,4 +484,5 @@ document.addEventListener('DOMContentLoaded', () => {
         calculatorContainer.classList.remove('active');
         setTimeout(() => infoContent.classList.add('active'), 300);
     });
+
 });
