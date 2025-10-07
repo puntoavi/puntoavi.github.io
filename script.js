@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 audioRestorationContainer.style.display = 'none';
                 videoEnhancementContainer.style.display = 'flex';
                 separateTracksContainer.style.display = 'none';
-                
+                this.refs.videoWarning.style.display = 'flex';
 
                 if (this.state.selectedOptions['video-type'] &&
                     (this.state.selectedOptions['video-type'].id === 'dvd')){
@@ -486,3 +486,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
