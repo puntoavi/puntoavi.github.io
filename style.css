@@ -713,10 +713,10 @@ ul{
 
 @media (max-width: 768px) {
     h1 {
-        font-size: 7rem;
+        font-size: 9rem;
     }
     h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     p {
         font-size: 1rem;
@@ -802,7 +802,7 @@ ul{
         font-size: 9rem;
     }
     h2 {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     p {
         font-size: 1rem;
@@ -852,4 +852,5 @@ ul{
         margin-bottom: 10px;
     }
 }
+
 
