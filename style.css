@@ -32,7 +32,12 @@ body, html {
 #catalogo{
 	color: white;
 }
-
+a:link {
+      color: white;
+     }
+a:visited {
+      color: white;
+     }
 
 .floating-element {
     position: absolute;
@@ -857,3 +862,4 @@ ul{
         margin-bottom: 10px;
     }
 }
+
