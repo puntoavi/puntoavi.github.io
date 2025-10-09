@@ -72,11 +72,12 @@ body, html {
 }
 
 h1{
-    font-family: "Jua", sans-serif;
-    font-style: normal;
+    font-family: "League Spartan", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
     font-size: 8.5rem;
     font-weight: 700;
-    color: #12b5fd;
+    color: #1800ad;
     text-shadow: 2px 1px 2px #00FFFF, -2px -1px 2px #FF00FF;
 }
 
