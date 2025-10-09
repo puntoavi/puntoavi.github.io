@@ -303,6 +303,47 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!this.state.isFinalSelection) this.refs.detailsContainer.style.display = 'none';
             this.updateBackButton();
         },
+		// Dentro del objeto Calculator, añade esta función:
+		getCurrentPrice() {
+			let basePrice = 0, finalSelectionId = '';
+			for (const step in this.state.selectedOptions) {
+				const option = this.state.selectedOptions[step];
+				if (option.id === 'cd') finalSelectionId = 'cd-audio';
+				else if (option.id === '60min') finalSelectionId = 'casete-60min';
+				else if (option.id === '90min') finalSelectionId = 'casete-90min';
+				else if (option.id === 'single') finalSelectionId = 'vinilo-single';
+				else if (option.id === 'ep') finalSelectionId = 'vinilo-ep';
+				else if (option.id === 'lp') finalSelectionId = 'vinilo-lp';
+				else if (option.id === 'vhs') finalSelectionId = 'vhs';
+				else if (option.id === 'vhs-c') finalSelectionId = 'vhs-c';
+				else if (option.id === 'dvd') finalSelectionId = 'dvd';
+				else if (option.id === 'diskette') finalSelectionId = 'diskette';
+				else if (option.id === 'disco-rigido') finalSelectionId = 'disco-rigido';
+				else if (option.id === 'memoria-sd') finalSelectionId = 'memoria-sd';
+				else if (option.id === 'cd-dvd') finalSelectionId = 'cd-dvd';
+			}
+			basePrice = this.PRECIOS[finalSelectionId] || 1500;
+			
+			// Aplicar modificadores
+			if (this.state.audioRestoration) basePrice += this.PRECIOS['restauracion-audio'];
+			if (this.state.videoEnhancement) basePrice += this.PRECIOS['mejora-video'];
+			if (this.state.separateTracks) basePrice += this.PRECIOS['separar-pistas'];
+			
+			let totalPrice = basePrice * this.state.quantity;
+			if (this.state.deliveryOption === 'pendrive') totalPrice += this.PRECIOS['pendrive'];
+			if (this.state.deliveryOption === 'cloud') totalPrice += this.PRECIOS['link'];
+			if (this.state.deliveryOption === 'both') totalPrice += this.PRECIOS['entrega-ambas'];
+
+			return totalPrice;
+		},
+
+		// Y esta función para actualizar el precio mostrado
+		updatePriceDisplay() {
+			if (this.refs.resultContainer.style.display === 'block') {
+				const currentPrice = this.getCurrentPrice();
+				this.refs.priceResult.textContent = `$${currentPrice}`;
+			}
+		},
         resetCalculationState() {
             this.refs.resultContainer.style.display = 'none';
             this.refs.calculateBtn.classList.remove('calculating');
@@ -313,79 +354,64 @@ document.addEventListener('DOMContentLoaded', () => {
             this.refs.globalBackBtn.style.display = this.state.selectionHistory.length > 0 ? 'block' : 'none';
         },
         setupListeners() {
-            this.refs.decreaseQuantity.addEventListener('click', () => {
-                if (this.state.quantity > 1) {
-                    this.state.quantity--;
-                    this.refs.quantityValue.textContent = this.state.quantity;
-                }
-            });
-            this.refs.increaseQuantity.addEventListener('click', () => {
-                this.state.quantity++;
-                this.refs.quantityValue.textContent = this.state.quantity;
-            });
-            this.refs.deliveryOptions.forEach(option => {
-                option.addEventListener('click', () => {
-                    this.refs.deliveryOptions.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    this.state.deliveryOption = option.getAttribute('data-value');
-                });
-            });
-            this.refs.audioRestorationCheckbox.addEventListener('change', (e) => {
-                this.state.audioRestoration = e.target.checked;
-            });
-            this.refs.videoEnhancementCheckbox.addEventListener('change', (e) => {
-                this.state.videoEnhancement = e.target.checked;
-            });
-            this.refs.separateTracksCheckbox.addEventListener('change', (e) => {
-                this.state.separateTracks = e.target.checked;
-            });
-            this.refs.calculateBtn.addEventListener('click', () => this.calculatePrice());
-            this.refs.requestBtn.addEventListener('click', () => this.requestService());
-            this.refs.globalBackBtn.addEventListener('click', () => this.goBack());
-            this.refs.deliveryOptions[0].classList.add('selected');
-        },
+			this.refs.decreaseQuantity.addEventListener('click', () => {
+				if (this.state.quantity > 1) {
+					this.state.quantity--;
+					this.refs.quantityValue.textContent = this.state.quantity;
+					this.updatePriceDisplay();
+				}
+			});
+			
+			this.refs.increaseQuantity.addEventListener('click', () => {
+				this.state.quantity++;
+				this.refs.quantityValue.textContent = this.state.quantity;
+				this.updatePriceDisplay();
+			});
+			
+			this.refs.deliveryOptions.forEach(option => {
+				option.addEventListener('click', () => {
+					this.refs.deliveryOptions.forEach(opt => opt.classList.remove('selected'));
+					option.classList.add('selected');
+					this.state.deliveryOption = option.getAttribute('data-value');
+					this.updatePriceDisplay();
+				});
+			});
+			
+			this.refs.audioRestorationCheckbox.addEventListener('change', (e) => {
+				this.state.audioRestoration = e.target.checked;
+				this.updatePriceDisplay();
+			});
+			
+			this.refs.videoEnhancementCheckbox.addEventListener('change', (e) => {
+				this.state.videoEnhancement = e.target.checked;
+				this.updatePriceDisplay();
+			});
+			
+			this.refs.separateTracksCheckbox.addEventListener('change', (e) => {
+				this.state.separateTracks = e.target.checked;
+				this.updatePriceDisplay();
+			});
+			
+			this.refs.calculateBtn.addEventListener('click', () => this.calculatePrice());
+			this.refs.requestBtn.addEventListener('click', () => this.requestService());
+			this.refs.globalBackBtn.addEventListener('click', () => this.goBack());
+			this.refs.deliveryOptions[0].classList.add('selected');
+		},
         calculatePrice() {
-            this.refs.calculateBtn.classList.add('calculating');
-            this.refs.calculateBtn.textContent = 'Calculando...';
-            setTimeout(() => {
-                let basePrice = 0, finalSelectionId = '';
-                for (const step in this.state.selectedOptions) {
-                    const option = this.state.selectedOptions[step];
-                    if (option.id === 'cd') finalSelectionId = 'cd-audio';
-                    else if (option.id === '60min') finalSelectionId = 'casete-60min';
-                    else if (option.id === '90min') finalSelectionId = 'casete-90min';
-                    else if (option.id === 'single') finalSelectionId = 'vinilo-single';
-                    else if (option.id === 'ep') finalSelectionId = 'vinilo-ep';
-                    else if (option.id === 'lp') finalSelectionId = 'vinilo-lp';
-                    else if (option.id === 'vhs') finalSelectionId = 'vhs';
-                    else if (option.id === 'vhs-c') finalSelectionId = 'vhs-c';
-                    else if (option.id === 'dvd') finalSelectionId = 'dvd';
-                    else if (option.id === 'diskette') finalSelectionId = 'diskette';
-                    else if (option.id === 'disco-rigido') finalSelectionId = 'disco-rigido';
-                    else if (option.id === 'memoria-sd') finalSelectionId = 'memoria-sd';
-                    else if (option.id === 'cd-dvd') finalSelectionId = 'cd-dvd';
-                }
-                basePrice = this.PRECIOS[finalSelectionId] || 1500;
-                if (this.state.audioRestoration) basePrice += this.PRECIOS['restauracion-audio'];
-                if (this.state.videoEnhancement) basePrice += this.PRECIOS['mejora-video'];
-                if (this.state.separateTracks) basePrice += this.PRECIOS['separar-pistas'];
-                let totalPrice = basePrice * this.state.quantity;
-				if (this.state.deliveryOption === 'pendrive') totalPrice += this.PRECIOS['pendrive'];
-				if (this.state.deliveryOption === 'cloud') totalPrice += this.PRECIOS['link'];
-                if (this.state.deliveryOption === 'both') totalPrice += this.PRECIOS['entrega-ambas'];
-
-                this.refs.priceResult.textContent = `$${totalPrice}`;
-                this.refs.resultContainer.style.display = 'block';
-                
-                this.refs.calculateBtn.style.display = 'none';
-                setTimeout(() => {
-                    this.refs.requestBtn.style.display = 'block';
-                }, 600);
-            }, 2000); // Más rápido
-        },
+			this.refs.calculateBtn.classList.add('calculating');
+			this.refs.calculateBtn.textContent = 'Calculando...';
+			setTimeout(() => {
+				const totalPrice = this.getCurrentPrice();
+				this.refs.priceResult.textContent = `$${totalPrice}`;
+				this.refs.resultContainer.style.display = 'block';
+				this.refs.calculateBtn.style.display = 'none';
+				setTimeout(() => {
+					this.refs.requestBtn.style.display = 'block';
+				}, 600);
+			}, 2000);
+		},
         requestService() {
-            document.querySelector('.calculator-container').style.opacity = '0';
-            document.querySelector('.calculator-container').style.transition = 'opacity 0.5s ease';
+            calculatorContainer.classList.remove('active');
             setTimeout(() => {
                 this.refs.thankYouMessage.style.opacity = '1';
                 setTimeout(() => {
@@ -393,95 +419,109 @@ document.addEventListener('DOMContentLoaded', () => {
                     this.refs.thankYouMessage.style.opacity = '0';
                     setTimeout(() => {
                         this.sendWhatsAppMessage();
-                    }, 700);
-                }, 400);
+                    }, 1000);
+                }, 1500);
             }, 1500);
         },
         sendWhatsAppMessage() {
-            let msg = "Hola, me interesa solicitar el servicio de conversión con los siguientes detalles:%0A";
-            for (const step in this.state.selectedOptions) {
-                msg += `${step}: ${this.state.selectedOptions[step].text}%0A`;
-            }
-            msg += `%0ACantidad: ${this.state.quantity}%0A`;
-            msg += `Entrega: ${this.state.deliveryOption === 'pendrive' ? 'Pen Drive' :
-                this.state.deliveryOption === 'cloud' ? 'Link en la Nube' : 'Ambas'}%0A`;
-            if (this.state.audioRestoration) msg += "Restaurar Sonido: Sí%0A";
-            if (this.state.videoEnhancement) msg += "Mejorar Imagen de Video: Sí%0A";
-            if (this.state.separateTracks) msg += "Separar pistas: Sí%0A";
-            msg += `Precio calculado: ${this.refs.priceResult.textContent}%0A%0A`;
-            msg += "Por favor, contactarme para coordinar el servicio.";
-            window.open(`https://wa.me/5491153374470?text=${msg}`, '_blank');
-            setTimeout(() => {
-                this.reset();
-                document.getElementById('calculatorContainer').classList.remove('active');
-                document.getElementById('infoContent').classList.remove('active');
-                document.querySelector('.content').classList.remove('hidden');
-            }, 1100);
-        },
+			const currentPrice = this.getCurrentPrice();
+			let msg = "Hola, me interesa solicitar el servicio de conversión con los siguientes detalles:%0A";
+			for (const step in this.state.selectedOptions) {
+				msg += `${step}: ${this.state.selectedOptions[step].text}%0A`;
+			}
+			msg += `%0ACantidad: ${this.state.quantity}%0A`;
+			msg += `Entrega: ${this.state.deliveryOption === 'pendrive' ? 'Pen Drive' :
+				this.state.deliveryOption === 'cloud' ? 'Link en la Nube' : 'Ambas'}%0A`;
+			if (this.state.audioRestoration) msg += "Restaurar Sonido: Sí%0A";
+			if (this.state.videoEnhancement) msg += "Mejorar Imagen de Video: Sí%0A";
+			if (this.state.separateTracks) msg += "Separar pistas: Sí%0A";
+			msg += `Precio calculado: $${currentPrice}%0A%0A`;
+			msg += "Por favor, contactarme para coordinar el servicio.";
+			window.open(`https://wa.me/5491153374470?text=${msg}`, '_blank');
+			setTimeout(() => {
+				this.reset();
+				showOnly('main');
+			}, 1100);
+		},
         reset() {
-            this.state = {
-                currentStep: "root",
-                selectedOptions: {},
-                selectionHistory: [],
-                quantity: 1,
-                deliveryOption: "pendrive",
-                audioRestoration: false,
-                videoEnhancement: false,
-                separateTracks: false,
-                isFinalSelection: false
-            };
-            this.refs.selectionPath.innerHTML = '';
-            this.refs.optionsContainer.innerHTML = '';
-            this.refs.optionsContainer.style.display = 'block';
-            this.refs.detailsContainer.style.display = 'none';
-            this.refs.resultContainer.style.display = 'none';
-            this.refs.calculateBtn.style.display = 'none';
-            this.refs.calculateBtn.classList.remove('calculating');
-            this.refs.calculateBtn.textContent = 'Calcular...';
-            this.refs.requestBtn.style.display = 'none';
-            this.refs.quantityValue.textContent = '1';
-            this.refs.audioRestorationCheckbox.checked = false;
-            this.refs.videoEnhancementCheckbox.checked = false;
-            this.refs.separateTracksCheckbox.checked = false;
-            this.refs.videoWarning.style.display = 'none';
-            this.refs.informationWarning.style.display = 'none';
-            document.querySelector('.calculator-container').style.opacity = '1';
-            this.showOptions(this.state.currentStep);
-            this.refs.deliveryOptions.forEach(opt => opt.classList.remove('selected'));
-            this.refs.deliveryOptions[0].classList.add('selected');
-            this.updateBackButton();
-        }
+			this.state = {
+				currentStep: "root",
+				selectedOptions: {},
+				selectionHistory: [],
+				quantity: 1,
+				deliveryOption: "pendrive",
+				audioRestoration: false,
+				videoEnhancement: false,
+				separateTracks: false,
+				isFinalSelection: false
+			};
+			this.refs.selectionPath.innerHTML = '';
+			this.refs.optionsContainer.innerHTML = '';
+			this.refs.optionsContainer.style.display = 'block';
+			this.refs.detailsContainer.style.display = 'none';
+			this.refs.resultContainer.style.display = 'none';
+			this.refs.calculateBtn.style.display = 'none';
+			this.refs.calculateBtn.classList.remove('calculating');
+			this.refs.calculateBtn.textContent = 'Calcular...';
+			this.refs.requestBtn.style.display = 'none';
+			this.refs.quantityValue.textContent = '1';
+			this.refs.audioRestorationCheckbox.checked = false;
+			this.refs.videoEnhancementCheckbox.checked = false;
+			this.refs.separateTracksCheckbox.checked = false;
+			this.refs.videoWarning.style.display = 'none';
+			this.refs.informationWarning.style.display = 'none';
+			this.showOptions(this.state.currentStep);
+			this.refs.deliveryOptions.forEach(opt => opt.classList.remove('selected'));
+			this.refs.deliveryOptions[0].classList.add('selected');
+			this.updateBackButton();
+		}
     };
 
     Calculator.init();
 
     // ------------------ TRANSICIONES DE PANTALLAS ------------------
-    const learnMoreBtn = document.querySelector('.btn');
-    const backBtn = document.getElementById('backBtn');
-    const calculateCostBtn = document.getElementById('calculateCostBtn');
-    const calculatorBackBtn = document.getElementById('calculatorBackBtn');
-    const mainContent = document.querySelector('.content');
-    const infoContent = document.getElementById('infoContent');
-    const calculatorContainer = document.getElementById('calculatorContainer');
+	const learnMoreBtn = document.querySelector('.btn');
+	const backBtn = document.getElementById('backBtn');
+	const calculateCostBtn = document.getElementById('calculateCostBtn');
+	const calculatorBackBtn = document.getElementById('calculatorBackBtn');
+	const mainContent = document.querySelector('.content');
+	const infoContent = document.getElementById('infoContent');
+	const calculatorContainer = document.getElementById('calculatorContainer');
 
-    learnMoreBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        mainContent.classList.add('hidden');
-        setTimeout(() => infoContent.classList.add('active'), 300);
-    });
-    backBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        infoContent.classList.remove('active');
-        setTimeout(() => mainContent.classList.remove('hidden'), 300);
-    });
-    calculateCostBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        infoContent.classList.remove('active');
-        setTimeout(() => calculatorContainer.classList.add('active'), 300);
-    });
-    calculatorBackBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        calculatorContainer.classList.remove('active');
-        setTimeout(() => infoContent.classList.add('active'), 300);
-    });
+	// Función para mostrar solo un contenedor
+	function showOnly(containerToShow) {
+		// Ocultar todos
+		mainContent.classList.add('hidden');
+		infoContent.classList.remove('active');
+		calculatorContainer.classList.remove('active');
+		
+		// Mostrar el solicitado
+		if (containerToShow === 'main') {
+			mainContent.classList.remove('hidden');
+		} else if (containerToShow === 'info') {
+			infoContent.classList.add('active');
+		} else if (containerToShow === 'calculator') {
+			calculatorContainer.classList.add('active');
+		}
+	}
+
+	learnMoreBtn.addEventListener('click', function (e) {
+		e.preventDefault();
+		showOnly('info');
+	});
+
+	backBtn.addEventListener('click', function (e) {
+		e.preventDefault();
+		showOnly('main');
+	});
+
+	calculateCostBtn.addEventListener('click', function (e) {
+		e.preventDefault();
+		showOnly('calculator');
+	});
+
+	calculatorBackBtn.addEventListener('click', function (e) {
+		e.preventDefault();
+		showOnly('info');
+	});
 });
