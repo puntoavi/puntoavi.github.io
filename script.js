@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'casete-60min': 12000, 'casete-90min': 18000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 10000,
             'vhs': 12000, 'vhs-c': 12000, 'dvd': 12000,
             'diskette': 2000, 'disco-rigido': 6000, 'memoria-sd': 6000, 'cd-dvd': 6000,
-            'restauracion-audio': 6000, 'mejora-video': 10000, 'separar-pistas': 4000, 'entrega-ambas': 8000, 'pendrive': 8000, 'link': 0
+            'restauracion-audio': 6000, 'mejora-video': 10000, 'separar-pistas': 4000, 'entrega-ambas': 10000, 'pendrive': 8000, 'link': 0
         },
         optionsTree: {
             "root": [
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ],
             "video-type": [
                 { id: "vhs", text: "VHS", final: true },
-                { id: "vhs-c", text: "VHS-C (Videocam)", final: true },
+                { id: "vhs-c", text: "VHS-C", final: true },
                 { id: "dvd", text: "DVD", final: true }
             ],
             "information-type": [

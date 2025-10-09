@@ -2,10 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-	-webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: always; /* O usar 'auto' o 'grayscale' */
-	
 }
 
 body, html {
@@ -101,14 +97,11 @@ p {
 #l1{
     font-size: 2.2rem;
 }
-#l2{
-    font-size: 1.5rem;
-}
-#l3{
-    font-size: 1rem;
-    font-weight: 500;
-}
 
+ul{
+		list-style-type: square;
+		list-style-position: outside;
+    }
 .btn {
     display: inline-block;
     padding: 15px 40px;
@@ -190,7 +183,7 @@ p {
     font-family: "Jua", sans-serif;
     font-size: 3.5rem;
     margin-bottom: 30px;
-    color: #12b5fd;
+    color: #1800ad;
     text-shadow: 2px 1px 2px #00FFFF, -2px -1px 2px #FF00FF;
 }
 
@@ -203,7 +196,7 @@ p {
 .info-list {
     font-size: 1.3rem;
     line-height: 1.6;
-    text-align: left;
+    text-align: center;
     padding-left: 20px;
 }
 
@@ -496,7 +489,7 @@ p {
 .price {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #12b5fd;
+    color: #1800ad;
     margin: 20px 0;
     text-shadow: 2px 1px 2px #00FFFF, -2px -1px 2px #FF00FF;
 }
@@ -801,10 +794,10 @@ p {
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 7rem;
+        font-size: 9rem;
     }
     h2 {
-        font-size: 3.5rem;
+        font-size: 2rem;
     }
     p {
         font-size: 1rem;
@@ -815,15 +808,10 @@ p {
     }
     
     #l1{
-        font-size: 1.5rem;
-    }
-    #l2{
-        font-size: 1.1rem;
-    }
-    #l3{
-        font-size: 0.8rem;
-        font-weight: 500;
-    }
+        font-size: 1rem;
+	}
+	
+
     
     .info-content {
         width: 90%;
@@ -859,4 +847,3 @@ p {
         margin-bottom: 10px;
     }
 }
-
