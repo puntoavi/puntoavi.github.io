@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------ CALCULADORA DE COSTOS ------------------
     const Calculator = {
         PRECIOS: {
-            'casete-60min': 1500, 'casete-90min': 1800, 'vinilo-single': 2000, 'vinilo-ep': 2500, 'vinilo-lp': 3000, 'cd-audio': 1000,
-            'vhs': 2500, 'vhs-c': 2800, 'dvd': 1500,
-            'diskette': 800, 'disco-rigido': 3000, 'memoria-sd': 1000, 'cd-dvd': 1200,
-            'restauracion-audio': 500, 'mejora-video': 800, 'separar-pistas': 700, 'entrega-ambas': 500
+            'casete-60min': 12000, 'casete-90min': 18000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 10000,
+            'vhs': 12000, 'vhs-c': 12000, 'dvd': 12000,
+            'diskette': 2000, 'disco-rigido': 6000, 'memoria-sd': 6000, 'cd-dvd': 6000,
+            'restauracion-audio': 6000, 'mejora-video': 10000, 'separar-pistas': 4000, 'entrega-ambas': 8000, 'pendrive': 8000, 'link': 0
         },
         optionsTree: {
             "root": [
@@ -247,8 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (this.state.selectedOptions['video-type'] &&
                     (this.state.selectedOptions['video-type'].id === 'dvd')){
-                        this.refs.videoWarning.style.display = 'none';
                         videoEnhancementContainer.style.display = 'none';
+						this.refs.videoWarning.style.display = 'none';
                 }
                 
                 this.refs.informationWarning.style.display = 'none';
@@ -370,13 +370,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (this.state.videoEnhancement) basePrice += this.PRECIOS['mejora-video'];
                 if (this.state.separateTracks) basePrice += this.PRECIOS['separar-pistas'];
                 let totalPrice = basePrice * this.state.quantity;
+				if (this.state.deliveryOption === 'pendrive') totalPrice += this.PRECIOS['pendrive'];
+				if (this.state.deliveryOption === 'cloud') totalPrice += this.PRECIOS['link'];
                 if (this.state.deliveryOption === 'both') totalPrice += this.PRECIOS['entrega-ambas'];
 
                 this.refs.priceResult.textContent = `$${totalPrice}`;
                 this.refs.resultContainer.style.display = 'block';
-                setTimeout(() => {
-                    this.refs.resultContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 300);
+                
                 this.refs.calculateBtn.style.display = 'none';
                 setTimeout(() => {
                     this.refs.requestBtn.style.display = 'block';
@@ -484,6 +484,4 @@ document.addEventListener('DOMContentLoaded', () => {
         calculatorContainer.classList.remove('active');
         setTimeout(() => infoContent.classList.add('active'), 300);
     });
-
 });
-
