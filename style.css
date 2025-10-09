@@ -2,6 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: always; /* O usar 'auto' o 'grayscale' */
+	
 }
 
 body, html {
@@ -855,3 +859,4 @@ p {
         margin-bottom: 10px;
     }
 }
+
