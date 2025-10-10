@@ -200,7 +200,7 @@ ul p{
     font-size: 3.5rem;
     margin-bottom: 30px;
     color: #1800ad;
-    
+    text-shadow: 2px 1px 2px #00FFFF, -2px -1px 2px #FF00FF;
 }
 
 .info-text {
@@ -505,7 +505,7 @@ ul p{
 .price {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #1800ad;
+    color: #6b9bb9;
     margin: 20px 0;
 
 	
@@ -869,6 +869,7 @@ ul p{
         margin-bottom: 10px;
     }
 }
+
 
 
 
