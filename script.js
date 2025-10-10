@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 separateTracksCheckbox: document.getElementById('separateTracks'),
                 calculateBtn: document.getElementById('calculateBtn'),
                 resultContainer: document.getElementById('resultContainer'),
-                priceResult: document.getElementById('priceResult'),
+                Result: document.getElementById('Result'),
                 requestBtn: document.getElementById('requestBtn'),
                 thankYouMessage: document.getElementById('thankYouMessage'),
                 deliveryOptions: document.querySelectorAll('.delivery-option'),
@@ -304,8 +304,8 @@ document.addEventListener('DOMContentLoaded', () => {
             this.updateBackButton();
         },
 		// Dentro del objeto Calculator, añade esta función:
-		getCurrentPrice() {
-			let basePrice = 0, finalSelectionId = '';
+		getCurrent() {
+			let base = 0, finalSelectionId = '';
 			for (const step in this.state.selectedOptions) {
 				const option = this.state.selectedOptions[step];
 				if (option.id === 'cd') finalSelectionId = 'cd-audio';
@@ -322,12 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				else if (option.id === 'memoria-sd') finalSelectionId = 'memoria-sd';
 				else if (option.id === 'cd-dvd') finalSelectionId = 'cd-dvd';
 			}
-			basePrice = this.PRECIOS[finalSelectionId] || 1500;
+			base = this.PRECIOS[finalSelectionId] || 1500;
 			
 			// Aplicar modificadores
-			if (this.state.audioRestoration) basePrice += this.PRECIOS['restauracion-audio'];
-			if (this.state.videoEnhancement) basePrice += this.PRECIOS['mejora-video'];
-			if (this.state.separateTracks) basePrice += this.PRECIOS['separar-pistas'];
+			if (this.state.audioRestoration) base += this.PRECIOS['restauracion-audio'];
+			if (this.state.videoEnhancement) base += this.PRECIOS['mejora-video'];
+			if (this.state.separateTracks) base += this.PRECIOS['separar-pistas'];
 			
 			let totalPrice = basePrice * this.state.quantity;
 			if (this.state.deliveryOption === 'pendrive') totalPrice += this.PRECIOS['pendrive'];
@@ -402,7 +402,27 @@ document.addEventListener('DOMContentLoaded', () => {
 			this.refs.calculateBtn.textContent = 'Calculando...';
 			setTimeout(() => {
 				const totalPrice = this.getCurrentPrice();
-				this.refs.priceResult.textContent = `$${totalPrice}`;
+
+				let str = totalPrice.toString();
+				// Aquí almacenaremos los resultados.
+				let resultado = "";
+				
+				// Recorremos el string con for "str.length" veces.
+				for (let i = 0; i < str.length; i++) {
+					// Cada número, lo concatenamos a "resultado".
+					resultado += str[i];
+					
+					// y luego de concatenar el número, verifico si el iterador es un múltiplo de 3.
+					// ponemos "i < str.length - 1" para evitar que el punto se agregue al final del string.
+					if ((str.length - i - 1) % 3 === 0 && i < str.length - 1) {
+						resultado += ".";
+					}
+				}
+				
+				
+
+				
+				this.refs.priceResult.textContent = `$${resultado}`;
 				this.refs.resultContainer.style.display = 'block';
 				this.refs.calculateBtn.style.display = 'none';
 				setTimeout(() => {
@@ -525,3 +545,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
