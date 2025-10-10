@@ -114,7 +114,7 @@ ul{
     }
 
 ul p{ 
-	position: relative; top: -0.5em; font-size: 80%; display: inline; 
+	position: relative; font-size: 80%; display: inline; 
 }
 
 
@@ -868,5 +868,6 @@ ul p{
         margin-bottom: 10px;
     }
 }
+
 
 
