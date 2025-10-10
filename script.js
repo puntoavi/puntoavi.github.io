@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
             this.updateBackButton();
         },
 		// Dentro del objeto Calculator, añade esta función:
-		getCurrent() {
+		getCurrentPrice() {
 			let base = 0, finalSelectionId = '';
 			for (const step in this.state.selectedOptions) {
 				const option = this.state.selectedOptions[step];
@@ -525,6 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
 
 
 
