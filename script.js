@@ -402,8 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			this.refs.calculateBtn.textContent = 'Calculando...';
 			setTimeout(() => {
 				const totalPrice = this.getCurrentPrice();
-
-				
 				this.refs.priceResult.textContent = `$${totalPrice}`;
 				this.refs.resultContainer.style.display = 'block';
 				this.refs.calculateBtn.style.display = 'none';
@@ -527,5 +525,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
 
 
