@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 separateTracksCheckbox: document.getElementById('separateTracks'),
                 calculateBtn: document.getElementById('calculateBtn'),
                 resultContainer: document.getElementById('resultContainer'),
-                Result: document.getElementById('Result'),
+                priceResult: document.getElementById('priceResult'),
                 requestBtn: document.getElementById('requestBtn'),
                 thankYouMessage: document.getElementById('thankYouMessage'),
                 deliveryOptions: document.querySelectorAll('.delivery-option'),
@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
 		// Dentro del objeto Calculator, añade esta función:
 		getCurrentPrice() {
-			let base = 0, finalSelectionId = '';
+			let basePrice = 0, finalSelectionId = '';
 			for (const step in this.state.selectedOptions) {
 				const option = this.state.selectedOptions[step];
 				if (option.id === 'cd') finalSelectionId = 'cd-audio';
@@ -322,12 +322,12 @@ document.addEventListener('DOMContentLoaded', () => {
 				else if (option.id === 'memoria-sd') finalSelectionId = 'memoria-sd';
 				else if (option.id === 'cd-dvd') finalSelectionId = 'cd-dvd';
 			}
-			base = this.PRECIOS[finalSelectionId] || 1500;
+			basePrice = this.PRECIOS[finalSelectionId] || 1500;
 			
 			// Aplicar modificadores
-			if (this.state.audioRestoration) base += this.PRECIOS['restauracion-audio'];
-			if (this.state.videoEnhancement) base += this.PRECIOS['mejora-video'];
-			if (this.state.separateTracks) base += this.PRECIOS['separar-pistas'];
+			if (this.state.audioRestoration) basePrice += this.PRECIOS['restauracion-audio'];
+			if (this.state.videoEnhancement) basePrice += this.PRECIOS['mejora-video'];
+			if (this.state.separateTracks) basePrice += this.PRECIOS['separar-pistas'];
 			
 			let totalPrice = basePrice * this.state.quantity;
 			if (this.state.deliveryOption === 'pendrive') totalPrice += this.PRECIOS['pendrive'];
@@ -525,7 +525,3 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
-
-
-
-
