@@ -113,8 +113,8 @@ ul{
 		list-style-position: outside;
     }
 
-.superindice { 
-	position: relative; top: -0.5em; font-size: 80%; 
+ul p{ 
+	position: relative; top: -0.5em; font-size: 80%; display: inline; 
 }
 
 
@@ -868,4 +868,5 @@ ul{
         margin-bottom: 10px;
     }
 }
+
 
