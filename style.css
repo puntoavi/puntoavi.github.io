@@ -112,6 +112,12 @@ ul{
 		list-style-type: square;
 		list-style-position: outside;
     }
+
+.superindice { 
+	position: relative; top: -0.5em; font-size: 80%; 
+}
+
+
 .btn {
     display: inline-block;
     padding: 15px 40px;
@@ -862,3 +868,4 @@ ul{
         margin-bottom: 10px;
     }
 }
+
