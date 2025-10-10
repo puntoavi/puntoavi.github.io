@@ -403,26 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			setTimeout(() => {
 				const totalPrice = this.getCurrentPrice();
 
-				let str = totalPrice.toString();
-				// Aquí almacenaremos los resultados.
-				let resultado = "";
 				
-				// Recorremos el string con for "str.length" veces.
-				for (let i = 0; i < str.length; i++) {
-					// Cada número, lo concatenamos a "resultado".
-					resultado += str[i];
-					
-					// y luego de concatenar el número, verifico si el iterador es un múltiplo de 3.
-					// ponemos "i < str.length - 1" para evitar que el punto se agregue al final del string.
-					if ((str.length - i - 1) % 3 === 0 && i < str.length - 1) {
-						resultado += ".";
-					}
-				}
-				
-				
-
-				
-				this.refs.priceResult.textContent = `$${resultado}`;
+				this.refs.priceResult.textContent = `$${totalPrice}`;
 				this.refs.resultContainer.style.display = 'block';
 				this.refs.calculateBtn.style.display = 'none';
 				setTimeout(() => {
@@ -545,4 +527,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
 
