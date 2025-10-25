@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------ CALCULADORA DE COSTOS ------------------
     const Calculator = {
         PRECIOS: {
-            'casete-60min': 12000, 'casete-90min': 18000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 10000,
-            'vhs': 12000, 'vhs-c': 12000, 'dvd': 12000,
-            'diskette': 2000, 'disco-rigido': 6000, 'memoria-sd': 6000, 'cd-dvd': 6000,
+            'casete-60min': 8000, 'casete-90min': 11000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 4000, 'cd-audiox3': 2000,
+            'vhs': 12000, 'vhs-c': 12000, 'dvd': 7000,
+            'diskette': 2000, 'disco-rigido': 8000, 'memoria-sd': 7000, 'cd-dvd': 4000,
             'restauracion-audio': 6000, 'mejora-video': 10000, 'separar-pistas': 4000, 'entrega-ambas': 10000, 'pendrive': 8000, 'link': 0
         },
         optionsTree: {
@@ -168,7 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 deliveryOptions: document.querySelectorAll('.delivery-option'),
                 globalBackBtn: document.getElementById('globalBackBtn'),
                 videoWarning: document.getElementById('videoWarning'),
-                informationWarning: document.getElementById('informationWarning')
+                informationWarning: document.getElementById('informationWarning'),
+				descuentoCD: document.getElementById('descuentoCD')
             };
             this.showOptions(this.state.currentStep);
             this.setupListeners();
@@ -225,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const separateTracksContainer = document.getElementById('separateTracksContainer');
 
             if (this.state.selectedOptions['root'].text === 'Audio') {
-                
+                this.refs.descuentoCD.style.display = 'none';
                 videoEnhancementContainer.style.display = 'none';
                 if (this.state.selectedOptions['audio-type'] &&
                     (this.state.selectedOptions['audio-type'].id === 'casete' ||
@@ -235,15 +236,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     separateTracksContainer.style.display = 'none';
                     audioRestorationContainer.style.display = 'none';
+					this.refs.descuentoCD.style.display = 'flex';
                 }
                 this.refs.videoWarning.style.display = 'none';
                 this.refs.informationWarning.style.display = 'none';
+				
 
             } else if (this.state.selectedOptions['root'].text === 'Video') {
                 audioRestorationContainer.style.display = 'none';
                 videoEnhancementContainer.style.display = 'flex';
                 separateTracksContainer.style.display = 'none';
                 this.refs.videoWarning.style.display = 'flex';
+				this.refs.descuentoCD.style.display = 'none';
 
                 if (this.state.selectedOptions['video-type'] &&
                     (this.state.selectedOptions['video-type'].id === 'dvd')){
@@ -258,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 audioRestorationContainer.style.display = 'none';
                 videoEnhancementContainer.style.display = 'none';
                 separateTracksContainer.style.display = 'none';
-                
+                this.refs.descuentoCD.style.display = 'none';
 
                 if (this.state.selectedOptions['information-type'] &&
                     (this.state.selectedOptions['information-type'].id === 'diskette')){
@@ -308,7 +312,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			let basePrice = 0, finalSelectionId = '';
 			for (const step in this.state.selectedOptions) {
 				const option = this.state.selectedOptions[step];
-				if (option.id === 'cd') finalSelectionId = 'cd-audio';
+				if (option.id === 'cd') {
+					if (this.state.quantity < 3) finalSelectionId = 'cd-audio';	
+					if (this.state.quantity >= 3) finalSelectionId = 'cd-audiox3';
+				}
 				else if (option.id === '60min') finalSelectionId = 'casete-60min';
 				else if (option.id === '90min') finalSelectionId = 'casete-90min';
 				else if (option.id === 'single') finalSelectionId = 'vinilo-single';
