@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ------------------ CALCULADORA DE COSTOS ------------------
     const Calculator = {
         PRECIOS: {
-            'casete-60min': 8000, 'casete-90min': 11000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 4000,
-            'vhs': 12000, 'vhs-c': 12000, 'dvd': 7000,
-            'diskette': 2000, 'disco-rigido': 8000, 'memoria-sd': 7000, 'cd-dvd': 4000,
+            'casete-60min': 8000, 'casete-90min': 12000, 'vinilo-single': 8000, 'vinilo-ep': 12000, 'vinilo-lp': 14000, 'cd-audio': 4000,
+            'vhs': 12000, 'vhs-c': 12000, 'dvd': 6000,
+            'diskette': 3500, 'disco-rigido': 10000, 'memoria-sd': 5000, 'cd-dvd': 5000,
             'restauracion-audio': 6000, 'mejora-video': 10000, 'separar-pistas': 4000, 'entrega-ambas': 10000, 'pendrive': 8000, 'link': 0
         },
         optionsTree: {
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 globalBackBtn: document.getElementById('globalBackBtn'),
                 videoWarning: document.getElementById('videoWarning'),
                 informationWarning: document.getElementById('informationWarning'),
-				//descuentoCD: document.getElementById('descuentoCD')                  AVISAR DESCUENTO DEL 10%
+				infox3: document.getElementById('infox3')
             };
             this.showOptions(this.state.currentStep);
             this.setupListeners();
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const audioRestorationContainer = document.getElementById('audioRestorationContainer');
             const videoEnhancementContainer = document.getElementById('videoEnhancementContainer');
             const separateTracksContainer = document.getElementById('separateTracksContainer');
-
+			infox3.style.display = 'flex';
             if (this.state.selectedOptions['root'].text === 'Audio') {
                 
                 videoEnhancementContainer.style.display = 'none';
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 audioRestorationContainer.style.display = 'none';
                 videoEnhancementContainer.style.display = 'none';
                 separateTracksContainer.style.display = 'none';
-                this.refs.descuentoCD.style.display = 'none';
+                
 
                 if (this.state.selectedOptions['information-type'] &&
                     (this.state.selectedOptions['information-type'].id === 'diskette')){
@@ -542,3 +542,4 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
