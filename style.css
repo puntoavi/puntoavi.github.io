@@ -93,6 +93,7 @@ h1{
 
 
 h2 {
+		
     font-size: 3.5rem;
     margin-bottom: 20px;
     font-weight: 700;
@@ -108,14 +109,46 @@ p {
     font-size: 1.5rem;
 }
 
-ul{
-		list-style-type: square;
-		list-style-position: outside;
-    }
+.ul1 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 400px; /* altura visible */
+  overflow: hidden;
+  position: relative;
 
-ul p{ 
-	position: relative; font-size: 80%; display: inline; 
+  /* Máscara que desvanece el contenido arriba y abajo */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0%,
+    black 15%,
+    black 85%,
+    transparent 100%);
 }
+
+.ul1-inner {
+  display: flex;
+  flex-direction: column;
+  animation: scrollUp 18s linear infinite;
+}
+
+.ul1 li {
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  padding: 6px 0;
+}
+
+/* Movimiento continuo */
+@keyframes scrollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
 
 
 .btn {
@@ -869,7 +902,6 @@ ul p{
         margin-bottom: 10px;
     }
 }
-
 
 
 
