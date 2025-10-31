@@ -249,10 +249,15 @@ p {
     padding-left: 20px;
 }
 
-.info-list li {
+.info-list p {
     font-size: 1.2rem;
     margin-bottom: 15px;
     line-height: 1.4;
+	
+}
+.info-list span{
+	font-size: 0.6rem;
+	vertical-align: top;
 }
 
 .back-btn {
