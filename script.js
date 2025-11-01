@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (this.state.separateTracks) msg += "Separar pistas: Sí%0A";
 			msg += `Precio calculado: $${currentPrice}%0A%0A`;
 			msg += "Por favor, contactarme para coordinar el servicio.";
-			window.open(`https://wa.me/5491153374470?text=${msg}`, '_blank');
+			window.open(`https://wa.me/5491138485451?text=${msg}`, '_blank');
 			setTimeout(() => {
 				this.reset();
 				showOnly('main');
@@ -542,4 +542,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		showOnly('info');
 	});
 });
+
 
